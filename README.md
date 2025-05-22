@@ -103,7 +103,7 @@ sudo npm install -g 2048-cli
 #### En Docker:
 
 ```bash
-docker stats 
+docker stats hopeful_fermi
 ```
 
 #### En la VM:
@@ -124,8 +124,10 @@ htop
 | **Uso de RAM (MiB)**    | 52 MiB                  | 88 MiB                           |
 | **% de Memoria usada**  | 0.68 %                  | 4.5 % (de 1950 MiB)              |
 | **Procesos activos**    | 1 (`2048-cli`)          | 1 (`node`) + procesos de sistema |
-| **Net I/O**             | 1.6 kB / 200 B          | Negligible (sin conexión)        |
-| **Block I/O (disco)**   | 0 B / 0 B               | 0 B / 0 B                        |
+| **Eventos/s**           | 7100                    | 7350                             |
+| **Tiempo (s)**          | 30                      | 30                               |
+| **Latencia (ms)**       | 0.28                    | 0.25                             |
+| **Total de Eventos**    | 213000                  | 220500                           |
 | **Tiempo de ejecución** | 1 minuto activo         | 1 minuto activo                  |
 
 ---
