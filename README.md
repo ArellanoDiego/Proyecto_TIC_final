@@ -16,13 +16,19 @@ Un **contenedor** es una tecnología de virtualización más ligera que permite 
 ## Configuración de entorno de prueba
 
 - **Máquina Host**:  
-  *(especificar configuración)*
-
+ GPU i5-1235U
+ RAM 16GB
 - **Máquina Virtual**:  
-  *(especificar configuración)*
+SO instalado: Ubuntu server 22.04 
+Version VirtualBox: 7.0.16
+Disco Virtual Asignado: 10GB 
+Memoria RAM asignada: 2048 MB 
+Nucleos CPU: 2 
 
 - **Imagen base de Docker**:  
-  *(especificar imagen)*
+Imagen base: Ubuntu 22.04
+Version de docker: 28.0.4
+Recursos asignados: 2 nucleos CPU, 2GB RAM 
 
 ---
 
@@ -60,22 +66,11 @@ docker --version
 
 ##### En Docker
 
-- Usar una imagen que ya tenga Sysbench:
-
-```bash
-docker run --rm -it severalnines/sysbench
-```
-
-Este comando:
-
-- Descarga la imagen `severalnines/sysbench`
-- Inicia un contenedor interactivo
-- Elimina el contenedor al salir (`--rm`)
 
 - Ejecutar la prueba:
 
 ```bash
-docker run --rm -it severalnines/sysbench sysbench cpu --cpu-max-prime=20000 run
+docker run --rm severalnines/sysbench sysbench cpu --threads=2 --time=30 run
 ```
 
 ##### En Máquina Virtual (Ubuntu)
@@ -93,28 +88,11 @@ sysbench cpu --cpu-max-prime=20000 run
 
 ## Resultados de la prueba en Sysbench (total de 5 pruebas)
 
-| Entorno         | Hilos del procesador | Eventos por segundo | Tiempo total (s) | Latencia promedio (ms) |
-|-----------------|----------------------|----------------------|------------------|-------------------------|
-| Máquina Virtual |                      |                      |                  |                         |
-| Docker          |                      |                      |                  |                         |
+| Entorno         | Hilos del procesador | Eventos por segundo  | Tiempo total (s) | Latencia promedio (ms)  | Número total de eventos |  
+|-----------------|----------------------|----------------------|------------------|-------------------------|-------------------------| 
+| Máquina Virtual |          2           |        6721          |        30        |          0.30           |          200999         | 
+| Docker          |          2           |        6535          |        30        |          0.30           |           196175        |
 
-> *Insertar gráfico de barras comparativo aquí*
-
----
-
-## Resultados generales
-
-| Métrica               | VirtualBox (VM) | Docker |
-|-----------------------|-----------------|--------|
-| Tiempo de arranque    |                 |        |
-| Uso de RAM (idle)     |                 |        |
-| Espacio en disco      |                 |        |
-| CPU Benchmark         |                 |        |
-| E/S de disco (`dd`)   |                 |        |
-
-> *Insertar gráfico de barras comparativo aquí*
-
----
 
 ## Prueba: Juego 2048
 
