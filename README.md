@@ -1,82 +1,49 @@
+# 📊 Comparación de Rendimiento: Máquina Virtual vs Contenedor Docker
 
-# Comparación entre Máquina Virtual y Contenedor
+## 1. Introducción
 
-## Introducción
+### 💻 ¿Qué es una Máquina Virtual (VM)?
 
-### ¿Qué es una máquina virtual?
+Una **máquina virtual (VM)** es un software que simula un ordenador completo dentro de otro. Funciona sobre un **hipervisor** y cuenta con su propio sistema operativo, CPU, memoria, disco y otros recursos virtualizados. Opera de forma aislada como si fuera un equipo físico independiente.
 
-Una **máquina virtual (VM)** es un software que simula un ordenador completo dentro de otro ordenador. Se ejecuta sobre un **hipervisor** y tiene su propio sistema operativo, recursos virtualizados (CPU, memoria, disco, etc.), y puede funcionar como un equipo independiente.
+### 📦 ¿Qué es un Contenedor?
 
-### ¿Qué es un contenedor?
-
-Un **contenedor** es una tecnología de virtualización más ligera que permite ejecutar aplicaciones de forma aislada pero compartiendo el mismo sistema operativo base del host. Usa una herramienta como **Docker**.
-
----
-
-## Configuración de entorno de prueba
-
-- **Máquina Host**:  
-  GPU i5-1235U
-  RAM 16GB
-- **Máquina Virtual**:  
-  SO instalado: Ubuntu server 22.04 
-  Version VirtualBox: 7.0.16
-  Disco Virtual Asignado: 10GB 
-  Memoria RAM asignada: 2048 MB 
-  Nucleos CPU: 2
-
-- **Imagen base de Docker**:  
-  Imagen base: Ubuntu 22.04
-  Version de docker: 28.0.4
-  Recursos asignados: 2 nucleos CPU, 2GB RAM 
+Un **contenedor** es una forma de virtualización más ligera que permite ejecutar aplicaciones de manera aislada pero compartiendo el mismo sistema operativo del host. Usa herramientas como **Docker** para empaquetar y ejecutar software de forma portable y eficiente.
 
 ---
 
-## Herramientas utilizadas
+## 2. Entorno de Pruebas
 
-- **Sysbench**
-- **Juego 2048 (Python)**
-
----
-
-## Prueba en Sysbench
-
-### Objetivo de la prueba
-
-Comparar cuántas operaciones puede realizar la CPU en un mismo tiempo bajo ambos entornos:
-
-- Docker (contenedor)
-- VM (VirtualBox)
+| Componente               | Especificaciones                                                                        |
+| ------------------------ | --------------------------------------------------------------------------------------- |
+| **Máquina Host**         | CPU: i5-1235U<br>RAM: 16 GB                                                             |
+| **Máquina Virtual (VM)** | Ubuntu Server 22.04<br>VirtualBox 7.0.16<br>Disco: 10 GB<br>RAM: 2 GB<br>CPU: 2 núcleos |
+| **Contenedor Docker**    | Imagen base: Ubuntu 22.04<br>Docker 28.0.4<br>RAM: 2 GB<br>CPU: 2 núcleos               |
 
 ---
 
-### Pasos de la prueba
+## 3. Herramientas Utilizadas
 
-#### 1. Instalación de Docker
+* **Sysbench**: herramienta de benchmarking para evaluar rendimiento de CPU.
+* **2048-cli (Node.js)**: versión por consola del juego 2048, usada para pruebas interactivas.
 
-- Descargar desde: [https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
-- Ejecutar Docker
-- Verificar versión:
+---
 
-```bash
-docker --version
-```
+## 4. Prueba de Rendimiento con Sysbench
 
-#### 2. Instalación de Sysbench
+### 🌟 Objetivo
 
-##### En Docker
+Comparar el rendimiento de la CPU midiendo cuántas operaciones puede ejecutar en 30 segundos, tanto en un contenedor como en una máquina virtual.
 
+### ⚙️ Instrucciones
 
-- Ejecutar la prueba:
+#### En Docker:
 
 ```bash
 docker run --rm severalnines/sysbench sysbench cpu --threads=2 --time=30 run
 ```
 
-##### En Máquina Virtual (Ubuntu)
-
-- Conectarse a la VM (VirtualBox)
-- Ejecutar:
+#### En la VM (Ubuntu):
 
 ```bash
 sudo apt update
@@ -84,69 +51,62 @@ sudo apt install sysbench -y
 sysbench cpu --cpu-max-prime=20000 run
 ```
 
----
+### 📈 Resultados de Sysbench (promedio de 5 pruebas)
 
-## Resultados de la prueba en Sysbench (total de 5 pruebas)
-
-| Entorno         | Hilos del procesador | Eventos por segundo  | Tiempo total (s) | Latencia promedio (ms)  | Número total de eventos |  
-|-----------------|----------------------|----------------------|------------------|-------------------------|-------------------------| 
-| Máquina Virtual |          2           |        6721          |        30        |          0.30           |          200999         | 
-| Docker          |          2           |        6535          |        30        |          0.30           |           196175        |
-
-
-## Prueba: Juego 2048
-
-### Objetivo de la prueba
-
-Comparar cuántas operaciones puede realizar la CPU en un mismo tiempo bajo ambos entornos:
-
-- Docker (contenedor)
-- VM (VirtualBox)
+| Entorno         | Hilos | Eventos/s | Tiempo (s) | Latencia (ms) | Total Eventos |
+| --------------- | ----- | --------- | ---------- | ------------- | ------------- |
+| VM (VirtualBox) | 2     | 6721      | 30         | 0.30          | 200,999       |
+| Docker          | 2     | 6535      | 30         | 0.30          | 196,175       |
 
 ---
 
-### Preparación
+## 5. Prueba de Rendimiento con el Juego 2048
 
-#### En Docker
+### 🌟 Objetivo
 
-- Imagen base con Node.js
+Observar y comparar el uso de recursos del sistema al ejecutar una aplicación interactiva en cada entorno.
 
-**Dockerfile para ejecutar 2048-cli:**
+### ⚙️ Preparación del entorno
+
+#### Docker: construcción y ejecución
+
+**Dockerfile:**
 
 ```Dockerfile
 FROM node:18-alpine
-CMD ["npx", "2048-cli"]
+RUN npm install -g 2048-cli
+CMD ["2048-cli"]
 ```
 
-- Ejecutar el juego:
+**Comandos:**
 
 ```bash
 docker build -t juego2048 .
 docker run -it juego2048
 ```
 
-#### En Máquina Virtual (Ubuntu)
-
-- Instalar Node.js y npm:
+#### VM (Ubuntu):
 
 ```bash
 sudo apt update
 sudo apt install nodejs npm -y
-```
-
-- Ejecutar el juego:
-
-```bash
-npx 2048-cli
+sudo npm install -g 2048-cli
+2048-cli
 ```
 
 ---
 
-### Ejecución de pruebas de rendimiento
+## 6. Monitoreo de Rendimiento
 
-Mientras se ejecuta el juego, en otra terminal usar:
+### 🔍 Herramientas utilizadas
 
-#### En Máquina Virtual
+#### En Docker:
+
+```bash
+docker stats <container_id>
+```
+
+#### En la VM:
 
 ```bash
 top
@@ -154,22 +114,38 @@ htop
 vmstat 1
 ```
 
-#### En Docker
+*Se utilizó una segunda terminal para monitorear en paralelo mientras se ejecutaba el juego.*
 
-```bash
-docker stats <container_id>
+---
+
+## 7. Resultados de la Prueba Interactiva (2048-cli)
+
+```markdown
+| Métrica                      | Docker (`happy_austin`) | Máquina Virtual (Ubuntu)     |
+|------------------------------|--------------------------|-------------------------------|
+| **Uso de CPU (%)**           | 3.2 %                    | 5.6 %                         |
+| **Uso de RAM (MiB)**         | 52 MiB                   | 88 MiB                        |
+| **% de Memoria usada**       | 0.68 %                   | 4.5 % (de 1950 MiB)           |
+| **Procesos activos**         | 1 (`2048-cli`)           | 1 (`node`) + procesos de sistema |
+| **Net I/O**                  | 1.6 kB / 200 B           | Negligible (sin conexión)     |
+| **Block I/O (disco)**        | 0 B / 0 B                | 0 B / 0 B                     |
+| **Tiempo de ejecución**      | 1 minuto activo          | 1 minuto activo               |
 ```
 
 ---
 
-## Resultados generales
+## 8. Conclusiones (para desarrollar)
 
-| Métrica                   | Docker (`happy_austin`)     | Máquina Virtual (Ubuntu)     |
-|---------------------------|------------------------------|-------------------------------|
-| **Uso de CPU (%)**        | 3.2 %                        | 5.6 %                         |
-| **Uso de RAM (MiB)**      | 52 MiB                       | 88 MiB                        |
-| **% de Memoria usada**    | 0.68 %                       | 4.5 % (de 1950 MiB)           |
-| **Procesos activos**      | 1 proceso (`2048-cli`)       | 1 proceso (`node`) + sistema |
-| **Net I/O**               | 1.6 kB / 200 B               | Negligible (sin red externa) |
-| **Block I/O (disco)**     | 0B / 0B                      | 0B / 0B                       |
-| **Tiempo activo (ejecución)** | 1 minuto activo           | 1 minuto activo               |
+* Docker demostó menor consumo de memoria y CPU en tareas ligeras.
+* La VM ofrece mayor aislamiento completo del sistema, pero con mayor sobrecarga.
+* En aplicaciones simples como juegos CLI o servicios pequeños, **Docker es más eficiente**.
+* La elección depende del caso de uso: seguridad y compatibilidad (VM) vs velocidad y ligereza (contenedor).
+
+---
+
+## 📌 Notas finales
+
+* Todas las pruebas se ejecutaron en el mismo equipo host, con recursos equivalentes asignados.
+* Se utilizó `htop`, `top`, `docker stats` y `Sysbench` para garantizar consistencia.
+* El contenedor utilizado fue `happy_austin`, con `2048-cli` en Node.js.
+* La máquina virtual corrió Ubuntu Server 22.04 en VirtualBox con configuración de 2 GB RAM y 2 CPU.
