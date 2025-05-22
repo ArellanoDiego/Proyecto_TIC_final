@@ -103,15 +103,13 @@ sudo npm install -g 2048-cli
 #### En Docker:
 
 ```bash
-docker stats <container_id>
+docker stats 
 ```
 
 #### En la VM:
 
 ```bash
-top
 htop
-vmstat 1
 ```
 
 *Se utilizó una segunda terminal para monitorear en paralelo mientras se ejecutaba el juego.*
@@ -120,17 +118,15 @@ vmstat 1
 
 ## 7. Resultados de la Prueba Interactiva (2048-cli)
 
-```markdown
-| Métrica                      | Docker (`happy_austin`) | Máquina Virtual (Ubuntu)     |
-|------------------------------|--------------------------|-------------------------------|
-| **Uso de CPU (%)**           | 3.2 %                    | 5.6 %                         |
-| **Uso de RAM (MiB)**         | 52 MiB                   | 88 MiB                        |
-| **% de Memoria usada**       | 0.68 %                   | 4.5 % (de 1950 MiB)           |
-| **Procesos activos**         | 1 (`2048-cli`)           | 1 (`node`) + procesos de sistema |
-| **Net I/O**                  | 1.6 kB / 200 B           | Negligible (sin conexión)     |
-| **Block I/O (disco)**        | 0 B / 0 B                | 0 B / 0 B                     |
-| **Tiempo de ejecución**      | 1 minuto activo          | 1 minuto activo               |
-```
+| Métrica                 | Docker (`happy_austin`) | Máquina Virtual (Ubuntu)         |
+| ----------------------- | ----------------------- | -------------------------------- |
+| **Uso de CPU (%)**      | 3.2 %                   | 5.6 %                            |
+| **Uso de RAM (MiB)**    | 52 MiB                  | 88 MiB                           |
+| **% de Memoria usada**  | 0.68 %                  | 4.5 % (de 1950 MiB)              |
+| **Procesos activos**    | 1 (`2048-cli`)          | 1 (`node`) + procesos de sistema |
+| **Net I/O**             | 1.6 kB / 200 B          | Negligible (sin conexión)        |
+| **Block I/O (disco)**   | 0 B / 0 B               | 0 B / 0 B                        |
+| **Tiempo de ejecución** | 1 minuto activo         | 1 minuto activo                  |
 
 ---
 
