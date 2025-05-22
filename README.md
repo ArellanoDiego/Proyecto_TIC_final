@@ -164,9 +164,12 @@ docker stats <container_id>
 
 ## Resultados generales
 
-| Métrica                         | VirtualBox (VM) | Docker |
-|---------------------------------|-----------------|--------|
-| Eventos por segundo             |                 |        |
-| Tiempo total                    |                 |        |
-| Número total de eventos ejecutados |             |        |
-| Latencia (ms)                   |                 |        |
+| Métrica                   | Docker (`happy_austin`)     | Máquina Virtual (Ubuntu)     |
+|---------------------------|------------------------------|-------------------------------|
+| **Uso de CPU (%)**        | 3.2 %                        | 5.6 %                         |
+| **Uso de RAM (MiB)**      | 52 MiB                       | 88 MiB                        |
+| **% de Memoria usada**    | 0.68 %                       | 4.5 % (de 1950 MiB)           |
+| **Procesos activos**      | 1 proceso (`2048-cli`)       | 1 proceso (`node`) + sistema |
+| **Net I/O**               | 1.6 kB / 200 B               | Negligible (sin red externa) |
+| **Block I/O (disco)**     | 0B / 0B                      | 0B / 0B                       |
+| **Tiempo activo (ejecución)** | 1 minuto activo           | 1 minuto activo               |
