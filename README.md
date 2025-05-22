@@ -16,19 +16,19 @@ Un **contenedor** es una tecnología de virtualización más ligera que permite 
 ## Configuración de entorno de prueba
 
 - **Máquina Host**:  
- GPU i5-1235U
- RAM 16GB
+  GPU i5-1235U
+  RAM 16GB
 - **Máquina Virtual**:  
-SO instalado: Ubuntu server 22.04 
-Version VirtualBox: 7.0.16
-Disco Virtual Asignado: 10GB 
-Memoria RAM asignada: 2048 MB 
-Nucleos CPU: 2 
+  SO instalado: Ubuntu server 22.04 
+  Version VirtualBox: 7.0.16
+  Disco Virtual Asignado: 10GB 
+  Memoria RAM asignada: 2048 MB 
+  Nucleos CPU: 2
 
 - **Imagen base de Docker**:  
-Imagen base: Ubuntu 22.04
-Version de docker: 28.0.4
-Recursos asignados: 2 nucleos CPU, 2GB RAM 
+  Imagen base: Ubuntu 22.04
+  Version de docker: 28.0.4
+  Recursos asignados: 2 nucleos CPU, 2GB RAM 
 
 ---
 
